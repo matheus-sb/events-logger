@@ -6,16 +6,16 @@
             </mat-list-item>
    
             <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/projects">Projects</mat-list-item>
-            <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/employees">Employees</mat-list-item>
+            <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/crew-managers">Crew managers</mat-list-item>
     </div>
  
     <mat-list-item routerLinkActive="active" routerLink="/event-logger">
-        Event Logger
+        Event logger
     </mat-list-item>
 
     <div routerLinkActive #rrla="routerLinkActive">
         <mat-list-item routerLink="/total-hours-per-project">
-            <span>Charts/Reports</span>
+            <span>Reports</span>
             <mat-icon>{{ rrla.isActive ? 'expand_less' : 'expand_more' }}</mat-icon>
         </mat-list-item>
 
