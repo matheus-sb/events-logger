@@ -1,0 +1,14 @@
+<div class="grid place-items-center">
+  <!-- Custom button to open file input -->
+  <button mat-raised-button color="accent" (click)="selectImage.click()">
+    Select image
+  </button>
+
+  <!-- Hidden file input -->
+  <input type="file" #selectImage accept="image/*" (change)="onImageSelected($event)" class="hidden">
+
+  <!-- Display the selected image -->
+  <div class="mt-4" *ngIf="selectedImage">
+    <img [src]="selectedImage" alt="Selected Image" class="w-36 h-36 mx-auto rounded-full shadow-lg">
+  </div>
+</div>
