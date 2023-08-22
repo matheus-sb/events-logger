@@ -13,6 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CrewManagerModule } from './crew-manager/crew-manager.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatListModule,
     ProjectModule,
-    MatDialogModule
+    MatDialogModule,
+    CrewManagerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
