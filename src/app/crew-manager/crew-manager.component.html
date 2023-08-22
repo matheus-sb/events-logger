@@ -1,0 +1,62 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <span class="text-2xl font-semibold">Crew managers</span>
+  <button *ngIf="!isHandset" mat-raised-button color="accent" class="ml-auto"  (click)="onCreateOrEditCrewManager()">
+    Create crew manager
+  </button>
+  <button
+    *ngIf="isHandset"
+    mat-mini-fab
+    aria-label="Create crew manager"
+    color="accent" 
+    class="ml-auto" 
+    (click)="onCreateOrEditCrewManager()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="flex flex-col px-[23px] mt-[15px]">
+<mat-form-field floatPlaceholder="never" color="accent">
+  <mat-label>Filter crew managers</mat-label>
+  <input matInput #filter (keyup)="filterCrewManagers(getValue($event))" placeholder="Filter crew managers" />
+</mat-form-field>
+</div>
+
+<mat-card *ngIf="crewManagers.length === 0" class="mx-[23px]">
+<mat-card-content color="accent" class="mat-body-strong text-center">No results found</mat-card-content>
+</mat-card>
+
+<cdk-virtual-scroll-viewport #scroller itemSize="70" class="content">
+<mat-list>
+  <ng-container *cdkVirtualFor="let item of crewManagers; let last = last;">
+    <mat-list-item>
+      <img matListItemAvatar [src]="item.image">
+      <span matListItemTitle> Name: {{item.name}} </span>
+      <span matListItemLine> Id: {{item.id}} </span>
+      <button class="!self-center" matListItemMeta [matMenuTriggerFor]="itemMenu" [matMenuTriggerData]="{ crewManager: item }">
+        <mat-icon>
+          more_vert
+        </mat-icon>
+      </button>
+      <mat-divider class="!ml-0" [inset]="true" *ngIf="!last"></mat-divider>
+    </mat-list-item>
+  </ng-container>
+  <div class="grid place-items-center mt-[10px]">
+    <mat-progress-spinner *ngIf="isLoading" [mode]="'indeterminate'" [diameter]="50"></mat-progress-spinner>
+  </div>
+</mat-list>
+</cdk-virtual-scroll-viewport>
+
+
+<mat-menu #itemMenu="matMenu">
+<ng-template matMenuContent let-aliasCrewManager="crewManager">
+  <button mat-menu-item (click)="onCreateOrEditCrewManager(aliasCrewManager)">
+    <mat-icon>edit</mat-icon>
+    <span>Edit</span>
+  </button>
+  <button mat-menu-item (click)="onDeleteCrewManager(aliasCrewManager)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+</ng-template>
+</mat-menu>
