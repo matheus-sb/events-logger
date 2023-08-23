@@ -38,6 +38,13 @@ export class CrudService {
     );
   }
 
+  getById<T extends Identifiable>(table: string, id: number): Observable<T | undefined> {
+    const items = this.getFromLocalStorage<T>(table);
+    return of(items.find((item) => item.id === id)).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   create<T extends Identifiable>(table: string, item: T): Observable<T> {
     const items = this.getFromLocalStorage<T>(table);
 
