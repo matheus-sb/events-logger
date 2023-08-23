@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewCh
 import { Observable, Subject, catchError, debounceTime, distinctUntilChanged, filter, map, pairwise, takeUntil, throttleTime } from 'rxjs';
 import { CrewManager, CrewManagerDialogData } from '../shared/crew-manager';
 import { MatDialog } from '@angular/material/dialog';
-import { CrewManagerService } from './crew-manager.service';
+import { CrewManagerService } from '../services/crew-manager.service';
 import { ErrorHandlerService } from '../services/error-handler.service';
 import { NotificationHandlerService } from '../services/notification-handler.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';

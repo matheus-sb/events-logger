@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject, Observable, ReplaySubject, throwError } from 'rxjs';
-import { CrudService } from '../services/crud.service';
+import { CrudService } from './crud.service';
 import { CrewManager } from '../shared/crew-manager';
 
 @Injectable({
@@ -38,6 +38,15 @@ export class CrewManagerService {
       catchError((error) => {
         console.error('Error creating crew manager:', error);
         return throwError(() => new Error('Failed to create crew manager. Please try again later.'));
+      })
+    );
+  }
+
+  getCrewManagerById(id: number) {
+    return this.crudService.getById<CrewManager>(this.table, id).pipe(
+      catchError((error) => {
+        console.error('Error fetching crew manager by id:', error);
+        return throwError(() => new Error('Failed to fetch crew manager by id. Please try again later.'));
       })
     );
   }
