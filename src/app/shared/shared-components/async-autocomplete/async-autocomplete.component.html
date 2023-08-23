@@ -1,0 +1,25 @@
+<mat-form-field class="w-full">
+    <mat-label>{{this.label}}</mat-label>
+    <input
+    #input
+    type="text"
+    placeholder="Pick one"
+    matInput
+    [formControl]="myControl"
+    [matAutocomplete]="auto"
+    (keyup)="filter()"
+    />
+    <mat-error>{{this.label}} is required</mat-error>
+    <mat-autocomplete
+    requireSelection
+    #auto="matAutocomplete"
+    [displayWith]="wrapDisplayFn()"
+    >
+    <mat-option
+        *ngFor="let option of data | async"
+        [value]="option"
+    >
+        {{option[displayAttr]}}
+    </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
