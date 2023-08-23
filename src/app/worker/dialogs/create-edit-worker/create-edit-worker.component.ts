@@ -70,4 +70,8 @@ export class CreateEditWorkerComponent {
   onSelectedItem(item: any) {
    this.crewManagerId = item ? item.id : null;
   }
+
+  onLoadMoreItems(aaa: any) {
+    this.data.crewManagerService.loadMoreCrewManagers();
+  }
 }

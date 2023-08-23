@@ -19,6 +19,7 @@
         [value]="data.relationships?.crewManager"
         (filteredBy)="onFilteredBy($event)"
         (selectedItem)="onSelectedItem($event)"
+        (loadMoreItems)="onLoadMoreItems($event)"
     ></app-async-autocomplete>
     <app-image-upload [selectedImage]="image?.value" (imageSelected)="onImageSelected($event)"></app-image-upload>
   </form>
