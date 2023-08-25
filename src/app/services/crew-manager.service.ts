@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject, Observable, ReplaySubject, throwError } from 'rxjs';
 import { CrudService } from './crud.service';
-import { CrewManager } from '../shared/crew-manager';
+import { CrewManager, CrewManagerFilterType, CrewManagerSortOrderType } from '../shared/crew-manager';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,8 @@ export class CrewManagerService {
   private table = 'crew-managers';
   private skippedItems = 0;
   private batchSize = 15;
+  private filterType: CrewManagerFilterType = CrewManagerFilterType.ByName;
+  private sortOrderType: CrewManagerSortOrderType = CrewManagerSortOrderType.AscendingByName;
   public crewManagersSubject = new BehaviorSubject<CrewManager[]>([]);
   public filterSubject = new BehaviorSubject<string | null>(null);
 
@@ -31,6 +33,12 @@ export class CrewManagerService {
 
   set filter(filterText: string) {
     this.filterSubject.next(filterText);
+  }
+
+  setFilterAndSortOrderTypes(filterType: CrewManagerFilterType, sortOrderType: CrewManagerSortOrderType) {
+    this.filterType = filterType;
+    this.sortOrderType = sortOrderType;
+    this.skippedItems = 0;
   }
 
   createCrewManager(crewManager: CrewManager) {
@@ -79,14 +87,14 @@ export class CrewManagerService {
   }
 
   loadMoreCrewManagers(): void {
-    this.crudService.getRange<CrewManager>(this.table, this.skippedItems, this.batchSize, (data) => this.filterCrewManagers(data))
+    this.crudService.getRange<CrewManager>(this.table, this.skippedItems, this.batchSize, (data) => this.filterAndSortCrewManagers(data))
       .subscribe({
         next: newCrewManagers => {
           const currentCrewManagers = this.crewManagersSubject.getValue();
 
-          if (this.skippedItems === 0 ) { // It's the top of the list
+          if (this.skippedItems === 0) { // It's the top of the list
             this.skippedItems += this.batchSize;
-            this.crewManagersSubject.next(newCrewManagers); 
+            this.crewManagersSubject.next(newCrewManagers);
           } else if (newCrewManagers.length === 0) { // if there are no more crew managers send the current ones
             this.crewManagersSubject.next(currentCrewManagers);
           } else {
@@ -97,14 +105,47 @@ export class CrewManagerService {
         error: error => {
           console.error(error);
         }
-    });
+      });
   }
 
-  private filterCrewManagers(data: CrewManager[]): CrewManager[] {
-    return data.slice().filter((crewManager) => {
+  private filterCompleteTextSearch(crewManagers: CrewManager[]): CrewManager[] {
+    return crewManagers.slice().filter((crewManager) => {
       const searchStr = (crewManager.id + crewManager.name).toLowerCase();
       return this.filter == null || searchStr.indexOf(this.filter?.toLowerCase()) !== -1;
     });
+  }
+
+  private filterByName(crewManagers: CrewManager[]): CrewManager[] {
+    return crewManagers.slice().filter((crewManager) => {
+      return this.filter == null || crewManager.name.toLowerCase().indexOf(this.filter?.toLowerCase()) !== -1;
+    });
+  }
+
+  private filterCrewManagers(crewManagers: CrewManager[]): CrewManager[] {
+    switch (this.filterType) {
+      case CrewManagerFilterType.CompleteTextSearch:
+        return this.filterCompleteTextSearch(crewManagers);
+      case CrewManagerFilterType.ByName:
+        return this.filterByName(crewManagers);
+      default:
+        return crewManagers;
+    }
+  }
+
+  private sortCrewManagers(crewManagers: CrewManager[]): CrewManager[] {
+    switch (this.sortOrderType) {
+      case CrewManagerSortOrderType.Reversed:
+        return crewManagers.slice().reverse();
+        case CrewManagerSortOrderType.AscendingByName:
+          return crewManagers.slice().sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+      default:
+        return crewManagers;
+    }
+  }
+
+  private filterAndSortCrewManagers(data: CrewManager[]): CrewManager[] {
+    const newData = this.filterCrewManagers(data);
+    return this.sortCrewManagers(newData);
   }
 
   // Reset the crew manager list

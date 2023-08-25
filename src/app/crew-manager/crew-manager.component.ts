@@ -1,7 +1,7 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subject, catchError, debounceTime, distinctUntilChanged, filter, map, pairwise, takeUntil, throttleTime } from 'rxjs';
-import { CrewManager, CrewManagerDialogData } from '../shared/crew-manager';
+import { CrewManager, CrewManagerDialogData, CrewManagerFilterType, CrewManagerSortOrderType } from '../shared/crew-manager';
 import { MatDialog } from '@angular/material/dialog';
 import { CrewManagerService } from '../services/crew-manager.service';
 import { ErrorHandlerService } from '../services/error-handler.service';
@@ -42,6 +42,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
       .subscribe(result => {
         this.isHandset = result.matches;
       });
+      
+    crewManagerService.setFilterAndSortOrderTypes(CrewManagerFilterType.CompleteTextSearch, CrewManagerSortOrderType.Reversed);
   }
 
   ngAfterViewInit(): void {

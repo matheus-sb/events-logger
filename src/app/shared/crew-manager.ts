@@ -8,4 +8,14 @@ export interface CrewManager extends Identifiable {
 export interface CrewManagerDialogData {
     title: string;
     crewManager: CrewManager;
-  }
+}
+
+export enum CrewManagerSortOrderType {
+    AscendingByName,
+    Reversed
+}
+
+export enum CrewManagerFilterType {
+    CompleteTextSearch,
+    ByName
+}

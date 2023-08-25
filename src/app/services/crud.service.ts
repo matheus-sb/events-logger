@@ -91,14 +91,12 @@ export class CrudService {
     table: string, 
     startIndex: number,  
     batchSize: number, 
-    filter: (items: T[]) => T[],
-    reversedOrder: boolean = true
+    filterAndSort: (items: T[]) => T[],
   ): Observable<T[]> {
     const items = this.getFromLocalStorage<T>(table);
-    let newItems = reversedOrder ? items.reverse() : items;
-    newItems = filter(items);
+    const newItems = filterAndSort(items);
     const start = Math.max(0, startIndex);
-    const end = Math.min(start + batchSize, items.length);
+    const end = Math.min(start + batchSize, newItems.length);
     const rangeItems = newItems.slice(start, end);
     return of(rangeItems).pipe(
       delay(500),
