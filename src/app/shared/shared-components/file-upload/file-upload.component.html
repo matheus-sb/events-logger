@@ -1,0 +1,33 @@
+<mat-form-field class="w-full">
+  <div>
+    <mat-toolbar>
+      <input matInput readonly class="cursor-pointer truncate" [value]="fileName" (click)="fileInput.click()" />
+      <button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()">
+        Upload
+      </button>
+    </mat-toolbar>
+
+    <input type="file" #fileInput (change)="selectFile($event)" accept=".docx, .xlsx, .pdf" name="fileInput" class="hidden" />
+  </div>
+</mat-form-field>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>List of Files</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let fileInfo of filesInfo; let i = index">
+        <span>{{fileInfo.fileName}}</span>
+        <span matListItemMeta>
+          <button mat-icon-button color="accent" (click)="downloadFile(fileInfo)">
+            <mat-icon>download</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="deleteFile(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

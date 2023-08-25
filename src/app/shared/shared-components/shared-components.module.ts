@@ -8,13 +8,19 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
 @NgModule({
   declarations: [
     ImageUploadComponent,
-    AsyncAutocompleteComponent
+    AsyncAutocompleteComponent,
+    FileUploadComponent
   ],
   imports: [
     CommonModule,
@@ -22,13 +28,18 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatListModule,
+    MatIconModule,
     ReactiveFormsModule,
     AsyncPipe,
     ScrollingModule
   ],
   exports: [
     ImageUploadComponent,
-    AsyncAutocompleteComponent
+    AsyncAutocompleteComponent,
+    FileUploadComponent
   ]
 })
 export class SharedComponentsModule { }

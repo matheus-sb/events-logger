@@ -1,0 +1,1 @@
+export type FileInfo = { fileName: string; fileData: string };
