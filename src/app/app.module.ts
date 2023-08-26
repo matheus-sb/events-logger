@@ -15,6 +15,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { MatDialogModule } from '@angular/material/dialog';
 import { CrewManagerModule } from './crew-manager/crew-manager.module';
 import { WorkerModule } from './worker/worker.module';
+import { EventLoggerModule } from './event-logger/event-logger.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { WorkerModule } from './worker/worker.module';
     ProjectModule,
     MatDialogModule,
     CrewManagerModule,
-    WorkerModule
+    WorkerModule,
+    EventLoggerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
