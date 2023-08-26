@@ -1,28 +1,37 @@
 <mat-nav-list>
-    <div routerLinkActive #crla="routerLinkActive">
-            <mat-list-item routerLink="/projects">
-                <span>Configurations</span>
-                <mat-icon>{{ crla.isActive ? 'expand_less' : 'expand_more' }}</mat-icon>
-            </mat-list-item>
-   
-            <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/projects">Projects</mat-list-item>
-            <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/crew-managers">Crew managers</mat-list-item>
-            <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/workers">Workers</mat-list-item>
-    </div>
- 
-    <mat-list-item routerLinkActive="active" routerLink="/event-logger">
-        Event logger
+  <div routerLinkActive #crla="routerLinkActive">
+    <mat-list-item routerLink="/projects">
+      <div class="flex justify-between">
+        <span>Configurations</span>
+        <mat-icon>{{ crla.isActive ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </div>
     </mat-list-item>
 
-    <div routerLinkActive #rrla="routerLinkActive">
-        <mat-list-item routerLink="/total-hours-per-project">
-            <span>Reports</span>
-            <mat-icon>{{ rrla.isActive ? 'expand_less' : 'expand_more' }}</mat-icon>
-        </mat-list-item>
+    <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active"
+      routerLink="/projects">Projects</mat-list-item>
+    <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/crew-managers">Crew
+      managers</mat-list-item>
+    <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active"
+      routerLink="/workers">Workers</mat-list-item>
+  </div>
 
-        <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active" routerLink="/total-hours-per-project">Total hours per project</mat-list-item>
-        <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active" routerLink="/total-hours-per-crew">Total hours per crew manager</mat-list-item>
-        <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active" routerLink="/total-hours-per-manager">Total hours per crew manager</mat-list-item>
-    </div>
+  <mat-list-item routerLinkActive="active" routerLink="/event-logger">
+    Event logger
+  </mat-list-item>
+
+  <div routerLinkActive #rrla="routerLinkActive">
+    <mat-list-item routerLink="/total-hours-per-project">
+      <div class="flex justify-between">
+        <span>Reports</span>
+        <mat-icon>{{ rrla.isActive ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
+      routerLink="/total-hours-per-project">Total hours per project</mat-list-item>
+    <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
+      routerLink="/total-hours-per-crew">Total hours per crew manager</mat-list-item>
+    <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
+      routerLink="/total-hours-per-manager">Total hours per crew manager</mat-list-item>
+  </div>
 </mat-nav-list>
-  
