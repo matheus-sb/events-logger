@@ -42,6 +42,15 @@ export class ProjectService {
     );
   }
 
+  getProjectById(id: number) {
+    return this.crudService.getById<Project>(this.table, id).pipe(
+      catchError((error) => {
+        console.error('Error fetching project by id:', error);
+        return throwError(() => new Error('Failed to fetch project by id. Please try again later.'));
+      })
+    );
+  }
+
   getAllProjects() {
     return this.crudService.getAll(this.table).pipe(
       catchError((error) => {
