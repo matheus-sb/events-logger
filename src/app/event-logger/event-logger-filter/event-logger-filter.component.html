@@ -1,0 +1,59 @@
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel #expansionPanel (opened)="onOpenedStep(0)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Filters
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="flex flex-wrap justify-start items-center gap-x-4">
+      <app-async-autocomplete class="flex-auto w-[550px]" label="Project" [isRequired]="false" [data]="projectService.projects$"
+        (filteredBy)="onProjectFilteredBy($event)" (selectedItem)="onProjectSelectedItem($event)"
+        (loadMoreItems)="onProjectLoadMoreItems($event)"></app-async-autocomplete>
+
+      <app-async-autocomplete class="flex-auto w-[550px]" label="Crew manager" [isRequired]="false" [data]="crewManagerService.crewManagers$"
+        (filteredBy)="onCrewManagerFilteredBy($event)" (selectedItem)="onCrewManagerSelectedItem($event)"
+        (loadMoreItems)="onCrewManagerLoadMoreItems($event)"></app-async-autocomplete>
+
+      <app-async-autocomplete class="flex-auto w-[550px]" label="Worker" [isRequired]="false" [data]="workerService.workers$"
+        (filteredBy)="onWorkerFilteredBy($event)" (selectedItem)="onWorkerSelectedItem($event)"
+        (loadMoreItems)="onWorkerLoadMoreItems($event)"></app-async-autocomplete>
+
+      <mat-form-field class="flex-initial">
+        <mat-label>Event logs date range</mat-label>
+        <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Start date">
+          <input matEndDate formControlName="end" placeholder="End date">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="dateRange.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="dateRange.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        <mat-error *ngIf="dateRange.hasError('incompleteRange')">Please select both start and end dates</mat-error>
+      </mat-form-field>
+
+      <mat-checkbox class="flex-initial" (change)="setHasFiles($event.checked)">Has files</mat-checkbox>
+    </div>
+    <mat-action-row>
+      <button mat-raised-button color="accent" [disabled]="!dateRange.valid"
+        (click)="filterEventLogsByAttributes()">Search</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="onOpenedStep(1)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Text search filter
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="flex flex-col">
+      <mat-form-field floatPlaceholder="never" color="accent">
+        <mat-label>Filter event logs</mat-label>
+        <input matInput #filter (keyup)="filterEventLogsByTextSearch(getValue($event))"
+          placeholder="Filter event logs" />
+      </mat-form-field>
+    </div>
+  </mat-expansion-panel>
+
+</mat-accordion>
