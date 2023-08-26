@@ -41,6 +41,15 @@ export class WorkerService {
     );
   }
 
+  getWorkerById(id: number) {
+    return this.crudService.getById<Worker>(this.table, id).pipe(
+      catchError((error) => {
+        console.error('Error fetching worker by id:', error);
+        return throwError(() => new Error('Failed to fetch worker by id. Please try again later.'));
+      })
+    );
+  }
+
   getAllWorkers() {
     return this.crudService.getAll(this.table).pipe(
       catchError((error) => {
