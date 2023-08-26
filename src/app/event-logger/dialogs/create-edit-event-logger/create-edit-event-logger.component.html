@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="eventLogForm" class="flex flex-col">
+    <!-- No ID input field for new event logs -->
+    <mat-form-field color="accent" *ngIf="isEditing">
+      <mat-label>Id</mat-label>
+      <input matInput formControlName="id" placeholder="Id">
+    </mat-form-field>
+    <mat-form-field *ngIf="isEditing">
+      <mat-label>Date</mat-label>
+      <input matInput type="datetime-local" formControlName="date" placeholder="Date">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Event type</mat-label>
+      <mat-select formControlName="eventType">
+        <mat-option [value]="getEventType().StartingToWork">Starting to work</mat-option>
+        <mat-option [value]="getEventType().BeforeLunch">Before lunch</mat-option>
+        <mat-option [value]="getEventType().AfterLunch">After lunch</mat-option>
+        <mat-option [value]="getEventType().StoppingWorking">Stopping working</mat-option>
+      </mat-select>
+      <mat-error>
+        Event type is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" placeholder="Description"></textarea>
+      <mat-error>
+        Description is required
+      </mat-error>
+    </mat-form-field>
+    <app-async-autocomplete label="Project" [data]="data.projectService.projects$" [value]="data.relationships?.project"
+      (filteredBy)="onProjectFilteredBy($event)" (selectedItem)="onProjectSelectedItem($event)"
+      (loadMoreItems)="onProjectLoadMoreItems($event)"></app-async-autocomplete>
+    <app-async-autocomplete label="Crew manager" [data]="data.crewManagerService.crewManagers$"
+      [value]="data.relationships?.crewManager" (filteredBy)="onCrewManagerFilteredBy($event)"
+      (selectedItem)="onCrewManagerSelectedItem($event)"
+      (loadMoreItems)="onCrewManagerLoadMoreItems($event)"></app-async-autocomplete>
+    <app-async-autocomplete label="Worker" [isRequired]="false" [data]="data.workerService.workers$" [value]="data.relationships?.worker"
+      (filteredBy)="onWorkerFilteredBy($event)" (selectedItem)="onWorkerSelectedItem($event)"
+      (loadMoreItems)="onWorkerLoadMoreItems($event)"></app-async-autocomplete>
+    <app-file-upload [filesInfo]="filesInfo" (filesInfoChange)="onFilesInfoChange($event)"></app-file-upload>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-raised-button color="primary" [disabled]="!eventLogForm.valid" (click)="onSave()">Save</button>
+  <button mat-button color="secondary" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>
