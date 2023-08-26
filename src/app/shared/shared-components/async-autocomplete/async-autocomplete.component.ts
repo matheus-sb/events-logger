@@ -14,6 +14,7 @@ export class AsyncAutocompleteComponent implements OnInit, OnDestroy, AfterViewI
 
   @Input() displayAttr: string = 'name';
   @Input() label: string = 'Name';
+  @Input() isRequired: boolean = true;
   @Input({ required: true }) data!: Observable<{[key:string]: any}[]>;
   @Input() value: {[key:string]: any} | undefined;
 
@@ -25,11 +26,15 @@ export class AsyncAutocompleteComponent implements OnInit, OnDestroy, AfterViewI
   private unsubscribe$ = new Subject<void>();
   items:{[key:string]: any}[] = [];
   
-  myControl = new FormControl<any>('', Validators.required);
+  myControl = new FormControl<any>('');
 
   constructor(private ngZone: NgZone) { }
 
   ngOnInit() {
+    if (this.isRequired) {
+      this.myControl.addValidators(Validators.required);
+    }
+    
     if (this.value) {
       this.myControl.setValue(this.value);
     }
