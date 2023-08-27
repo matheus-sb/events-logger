@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="mat-elevation-z4">
-    <span class="text-2xl font-semibold">Event Logger</span>
+    <span class="text-2xl font-semibold">Event logger</span>
     <button *ngIf="!isHandset" mat-raised-button color="accent" class="ml-auto"  (click)="onCreateOrEditEventLog()">
       Create event log
     </button>
@@ -33,7 +33,7 @@
       <mat-list-item>
         <span matListItemTitle>Project: {{item.projectName}}</span>
         <span matListItemLine><span class="mr-2">manager: {{item.crewManagerName}}</span> Worker: {{item.workerName}}</span>
-        <span matListItemLine><span class="mr-2">Id: {{item.id}}</span>Date: {{item.date | date:'medium'}}</span>
+        <span matListItemLine><span class="mr-2">Id: {{item.id}}</span>Date: {{item.date | date:' M/d/yyyy H:mm'}}</span>
         <button class="!self-center" matListItemMeta [matMenuTriggerFor]="itemMenu" [matMenuTriggerData]="{ eventLog: item }">
           <mat-icon>
             more_vert

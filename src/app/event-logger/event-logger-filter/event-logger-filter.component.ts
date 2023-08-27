@@ -36,7 +36,6 @@ export class EventLoggerFilterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("passou aqui")
     this.projectService.refreshProjects();
     this.crewManagerService.refreshCrewManagers();
     this.workerService.refreshWorkers();
