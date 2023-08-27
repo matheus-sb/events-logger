@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CrewManagerModule } from './crew-manager/crew-manager.module';
 import { WorkerModule } from './worker/worker.module';
 import { EventLoggerModule } from './event-logger/event-logger.module';
+import { ReportsModule } from './reports/reports.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { EventLoggerModule } from './event-logger/event-logger.module';
     MatDialogModule,
     CrewManagerModule,
     WorkerModule,
-    EventLoggerModule
+    EventLoggerModule,
+    ReportsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
