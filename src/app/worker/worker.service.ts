@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
-import { Worker } from '../shared/worker';
+import { Worker, WorkerFilterType, WorkerSortOrderType } from '../shared/worker';
 import { CrudService } from '../services/crud.service';
 
 @Injectable({
@@ -10,6 +10,8 @@ export class WorkerService {
   private table = 'workers';
   private skippedItems = 0;
   private batchSize = 15;
+  private filterType: WorkerFilterType = WorkerFilterType.ByName;
+  private sortOrderType: WorkerSortOrderType = WorkerSortOrderType.AscendingByName;
   public workersSubject = new BehaviorSubject<Worker[]>([]);
   public filterSubject = new BehaviorSubject<string | null>(null);
 
@@ -30,6 +32,12 @@ export class WorkerService {
 
   set filter(filterText: string) {
     this.filterSubject.next(filterText);
+  }
+
+  setFilterAndSortOrderTypes(filterType: WorkerFilterType, sortOrderType: WorkerSortOrderType) {
+    this.filterType = filterType;
+    this.sortOrderType = sortOrderType;
+    this.skippedItems = 0;
   }
 
   createWorker(worker: Worker) {
@@ -78,7 +86,7 @@ export class WorkerService {
   }
 
   loadMoreWorkers(): void {
-    this.crudService.getRange<Worker>(this.table, this.skippedItems, this.batchSize, (data) => this.filterWorkers(data))
+    this.crudService.getRange<Worker>(this.table, this.skippedItems, this.batchSize, (data) => this.filterAndSortWorkers(data))
       .subscribe({
         next: newWorkers => {
           const currentWorkers = this.workersSubject.getValue();
@@ -99,11 +107,44 @@ export class WorkerService {
     });
   }
 
-  private filterWorkers(data: Worker[]): Worker[] {
-    return data.slice().filter((worker) => {
+  private filterCompleteTextSearch(workers: Worker[]): Worker[] {
+    return workers.slice().filter((worker) => {
       const searchStr = (worker.id + worker.name).toLowerCase();
       return this.filter == null || searchStr.indexOf(this.filter?.toLowerCase()) !== -1;
     });
+  }
+
+  private filterByName(workers: Worker[]): Worker[] {
+    return workers.slice().filter((worker) => {
+      return this.filter == null || worker.name.toLowerCase().indexOf(this.filter?.toLowerCase()) !== -1;
+    });
+  }
+
+  private sortWorkers(workers: Worker[]): Worker[] {
+    switch (this.sortOrderType) {
+      case WorkerSortOrderType.Reversed:
+        return workers.slice().reverse();
+        case WorkerSortOrderType.AscendingByName:
+          return workers.slice().sort((a, b) => a.name.localeCompare(b.name));
+      default:
+        return workers;
+    }
+  }
+
+  private filterWorkers(workers: Worker[]): Worker[] {
+    switch (this.filterType) {
+      case WorkerFilterType.CompleteTextSearch:
+        return this.filterCompleteTextSearch(workers);
+      case WorkerFilterType.ByName:
+        return this.filterByName(workers);
+      default:
+        return workers;
+    }
+  }
+
+  private filterAndSortWorkers(data: Worker[]): Worker[] {
+    const newData = this.filterWorkers(data);
+    return this.sortWorkers(newData);
   }
 
   // Reset the worker list

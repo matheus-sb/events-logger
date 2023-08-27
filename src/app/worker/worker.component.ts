@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { RelationshipType, RelationshipsType, Worker, WorkerDialogData } from '../shared/worker';
+import { RelationshipsType, Worker, WorkerDialogData, WorkerFilterType, WorkerSortOrderType } from '../shared/worker';
 import { Observable, Subject, catchError, debounceTime, distinctUntilChanged, filter, map, of, pairwise, takeUntil, throttleTime } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MatDialog } from '@angular/material/dialog';
@@ -46,6 +46,8 @@ export class WorkerComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(result => {
         this.isHandset = result.matches;
       });
+
+    this.workerService.setFilterAndSortOrderTypes(WorkerFilterType.CompleteTextSearch, WorkerSortOrderType.Reversed);
   }
 
   ngAfterViewInit(): void {

@@ -17,3 +17,13 @@ export interface WorkerDialogData {
 }
 
 export type RelationshipType = 'crewManager'
+
+export enum WorkerSortOrderType {
+    AscendingByName,
+    Reversed
+  }
+  
+  export enum WorkerFilterType {
+    CompleteTextSearch,
+    ByName
+  }
