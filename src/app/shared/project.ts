@@ -9,3 +9,13 @@ export interface ProjectDialogData {
   title: string;
   project: Project;
 }
+
+export enum ProjectSortOrderType {
+  AscendingByName,
+  Reversed
+}
+
+export enum ProjectFilterType {
+  CompleteTextSearch,
+  ByName
+}

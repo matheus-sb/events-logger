@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProjectService } from './project.service';
 // import { ProjectDialogComponent } from './project-dialog/project-dialog.component';
 import { catchError, debounceTime, distinctUntilChanged, filter, map, pairwise, switchMap, takeUntil, throttleTime } from 'rxjs/operators';
-import { Project, ProjectDialogData } from '../shared/project';
+import { Project, ProjectDialogData, ProjectFilterType, ProjectSortOrderType } from '../shared/project';
 import { ErrorHandlerService } from '../services/error-handler.service';
 import { Observable, Subject } from 'rxjs';
 import { CdkVirtualScrollViewport, } from '@angular/cdk/scrolling';
@@ -11,6 +11,7 @@ import { CreateEditProjectComponent } from './dialogs/add-project/create-edit-pr
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from '../shared/confirmation-dialog-data';
 import { NotificationHandlerService } from '../services/notification-handler.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-project',
@@ -21,6 +22,7 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
   newProject: Project = { id: 0, name: '', address: '' }; // Use the Project interface
   projects: Project[] = [];
   isLoading = false;
+  isHandset = true;
 
   private unsubscribe$ = new Subject<void>();
   private filterText$ = new Subject<string>();
@@ -34,8 +36,17 @@ export class ProjectComponent implements OnInit, OnDestroy, AfterViewInit {
     private projectService: ProjectService,
     private errorHandlerService: ErrorHandlerService,
     private ngZone: NgZone,
-    private notificationHandlerService: NotificationHandlerService
-  ) { }
+    private notificationHandlerService: NotificationHandlerService,
+    private breakpointObserver: BreakpointObserver
+  ) { 
+    // Detect mobile breakpoint and adjust dialog width
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.isHandset = result.matches;
+      });
+    this.projectService.setFilterAndSortOrderTypes(ProjectFilterType.CompleteTextSearch, ProjectSortOrderType.Reversed);
+  }
 
   ngAfterViewInit(): void {
     this.scroller.elementScrolled().pipe(

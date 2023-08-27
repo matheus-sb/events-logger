@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject, Observable, ReplaySubject, throwError } from 'rxjs';
-import { Project } from '../shared/project';
+import { Project, ProjectFilterType, ProjectSortOrderType } from '../shared/project';
 import { CrudService } from '../services/crud.service';
 
 @Injectable({
@@ -11,6 +11,8 @@ export class ProjectService {
   private table = 'projects';
   private skippedItems = 0;
   private batchSize = 15;
+  private filterType: ProjectFilterType = ProjectFilterType.ByName;
+  private sortOrderType: ProjectSortOrderType = ProjectSortOrderType.AscendingByName;
   public projectsSubject = new BehaviorSubject<Project[]>([]);
   public filterSubject = new BehaviorSubject<string | null>(null);
 
@@ -31,6 +33,12 @@ export class ProjectService {
 
   set filter(filterText: string) {
     this.filterSubject.next(filterText);
+  }
+
+  setFilterAndSortOrderTypes(filterType: ProjectFilterType, sortOrderType: ProjectSortOrderType) {
+    this.filterType = filterType;
+    this.sortOrderType = sortOrderType;
+    this.skippedItems = 0;
   }
 
   createProject(project: Project) {
@@ -79,7 +87,7 @@ export class ProjectService {
   }
 
   loadMoreProjects(): void {
-    this.crudService.getRange<Project>(this.table, this.skippedItems, this.batchSize, (data) => this.filterProjects(data))
+    this.crudService.getRange<Project>(this.table, this.skippedItems, this.batchSize, (data) => this.filterAndSortProjects(data))
       .subscribe({
         next: newProjects => {
           const currentProjects = this.projectsSubject.getValue();
@@ -100,11 +108,44 @@ export class ProjectService {
     });
   }
 
-  private filterProjects(data: Project[]): Project[] {
-    return data.slice().filter((project) => {
+  private filterCompleteTextSearch(projects: Project[]): Project[] {
+    return projects.slice().filter((project) => {
       const searchStr = (project.id + project.name + project.address).toLowerCase();
       return this.filter == null || searchStr.indexOf(this.filter?.toLowerCase()) !== -1;
     });
+  }
+
+  private filterByName(projects: Project[]): Project[] {
+    return projects.slice().filter((project) => {
+      return this.filter == null || project.name.toLowerCase().indexOf(this.filter?.toLowerCase()) !== -1;
+    });
+  }
+
+  private filterProjects(projects: Project[]): Project[] {
+    switch (this.filterType) {
+      case ProjectFilterType.CompleteTextSearch:
+        return this.filterCompleteTextSearch(projects);
+      case ProjectFilterType.ByName:
+        return this.filterByName(projects);
+      default:
+        return projects;
+    }
+  }
+
+  private sortProjects(projects: Project[]): Project[] {
+    switch (this.sortOrderType) {
+      case ProjectSortOrderType.Reversed:
+        return projects.slice().reverse();
+        case ProjectSortOrderType.AscendingByName:
+          return projects.slice().sort((a, b) => a.name.localeCompare(b.name));
+      default:
+        return projects;
+    }
+  }
+
+  private filterAndSortProjects(data: Project[]): Project[] {
+    const newData = this.filterProjects(data);
+    return this.sortProjects(newData);
   }
 
   // Reset the project list
