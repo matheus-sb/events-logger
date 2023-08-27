@@ -3,10 +3,10 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewCh
 import { Observable, Subject, catchError, debounceTime, distinctUntilChanged, filter, map, pairwise, takeUntil, throttleTime } from 'rxjs';
 import { CrewManager, CrewManagerDialogData, CrewManagerFilterType, CrewManagerSortOrderType } from '../shared/crew-manager';
 import { MatDialog } from '@angular/material/dialog';
-import { CrewManagerService } from '../services/crew-manager.service';
+import { CrewManagerService } from './crew-manager.service';
 import { ErrorHandlerService } from '../services/error-handler.service';
 import { NotificationHandlerService } from '../services/notification-handler.service';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from '../shared/confirmation-dialog-data';
 import { CreateEditCrewManagerComponent } from './dialogs/create-edit-crew-manager/create-edit-crew-manager.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -42,7 +42,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
       .subscribe(result => {
         this.isHandset = result.matches;
       });
-      
+
     crewManagerService.setFilterAndSortOrderTypes(CrewManagerFilterType.CompleteTextSearch, CrewManagerSortOrderType.Reversed);
   }
 

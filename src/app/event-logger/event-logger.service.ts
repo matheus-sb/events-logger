@@ -5,7 +5,7 @@ import { CrudService } from '../services/crud.service';
 import { ProjectService } from '../project/project.service';
 import { Project } from '../shared/project';
 import { CrewManager } from '../shared/crew-manager';
-import { CrewManagerService } from '../services/crew-manager.service';
+import { CrewManagerService } from '../crew-manager/crew-manager.service';
 import { WorkerService } from '../worker/worker.service';
 import { Worker } from '../shared/worker';
 

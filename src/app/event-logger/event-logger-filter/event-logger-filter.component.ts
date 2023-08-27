@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ProjectService } from 'src/app/project/project.service';
-import { CrewManagerService } from 'src/app/services/crew-manager.service';
+import { CrewManagerService } from 'src/app/crew-manager/crew-manager.service';
 import { EventLogAttributesFilter, EventLogFilterType } from 'src/app/shared/event-log';
 import { WorkerService } from 'src/app/worker/worker.service';
 

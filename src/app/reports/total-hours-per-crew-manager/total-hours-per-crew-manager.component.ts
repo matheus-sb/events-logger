@@ -5,7 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { EventLogAttributesFilter } from 'src/app/shared/event-log';
 import { GroupTotalHoursType, ReportType } from 'src/app/shared/report';
 import { ReportsService } from '../reports.service';
-import { CrewManagerService } from 'src/app/services/crew-manager.service';
+import { CrewManagerService } from 'src/app/crew-manager/crew-manager.service';
 
 @Component({
   selector: 'app-total-hours-per-crew-manager',

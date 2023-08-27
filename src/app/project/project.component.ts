@@ -8,7 +8,7 @@ import { ErrorHandlerService } from '../services/error-handler.service';
 import { Observable, Subject } from 'rxjs';
 import { CdkVirtualScrollViewport, } from '@angular/cdk/scrolling';
 import { CreateEditProjectComponent } from './dialogs/add-project/create-edit-project.component';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from '../shared/confirmation-dialog-data';
 import { NotificationHandlerService } from '../services/notification-handler.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';

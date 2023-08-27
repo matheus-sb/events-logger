@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { SharedComponentsModule } from '../shared/shared-components/shared-components.module';
+import { SharedComponentsModule } from '../shared/components/shared-components.module';
 
 @NgModule({
   declarations: [

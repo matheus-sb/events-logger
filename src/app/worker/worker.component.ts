@@ -9,8 +9,8 @@ import { NotificationHandlerService } from '../services/notification-handler.ser
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CreateEditWorkerComponent } from './dialogs/create-edit-worker/create-edit-worker.component';
 import { ConfirmationDialogData } from '../shared/confirmation-dialog-data';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
-import { CrewManagerService } from '../services/crew-manager.service';
+import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { CrewManagerService } from '../crew-manager/crew-manager.service';
 import { Identifiable } from '../shared/identifiable';
 
 @Component({

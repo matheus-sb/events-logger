@@ -1,5 +1,5 @@
 import { ProjectService } from "../project/project.service";
-import { CrewManagerService } from "../services/crew-manager.service";
+import { CrewManagerService } from "../crew-manager/crew-manager.service";
 import { WorkerService } from "../worker/worker.service";
 import { FileInfo } from "./file-info";
 import { Identifiable } from "./identifiable";

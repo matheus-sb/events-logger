@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject, Observable, ReplaySubject, throwError } from 'rxjs';
-import { CrudService } from './crud.service';
+import { CrudService } from '../services/crud.service';
 import { CrewManager, CrewManagerFilterType, CrewManagerSortOrderType } from '../shared/crew-manager';
 
 @Injectable({

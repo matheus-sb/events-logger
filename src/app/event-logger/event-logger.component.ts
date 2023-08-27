@@ -7,9 +7,9 @@ import { EventLog, EventLogAttributesFilter, EventLogFilterType, EventLogSortOrd
 import { EventLoggerService } from './event-logger.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NotificationHandlerService } from '../services/notification-handler.service';
-import { CrewManagerService } from '../services/crew-manager.service';
+import { CrewManagerService } from '../crew-manager/crew-manager.service';
 import { CreateEditEventLoggerComponent } from './dialogs/create-edit-event-logger/create-edit-event-logger.component';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogData } from '../shared/confirmation-dialog-data';
 import { ProjectService } from '../project/project.service';
 import { WorkerService } from '../worker/worker.service';

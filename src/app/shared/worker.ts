@@ -1,4 +1,4 @@
-import { CrewManagerService } from "../services/crew-manager.service";
+import { CrewManagerService } from "../crew-manager/crew-manager.service";
 import { Identifiable } from "./identifiable";
 
 export interface Worker extends Identifiable {
