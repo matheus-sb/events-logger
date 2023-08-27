@@ -137,7 +137,7 @@ export class CrewManagerService {
       case CrewManagerSortOrderType.Reversed:
         return crewManagers.slice().reverse();
         case CrewManagerSortOrderType.AscendingByName:
-          return crewManagers.slice().sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+          return crewManagers.slice().sort((a, b) => a.name.localeCompare(b.name));
       default:
         return crewManagers;
     }
