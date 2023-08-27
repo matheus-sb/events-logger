@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
 
 @Component({
@@ -7,6 +7,8 @@ import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
   styleUrls: ['./sidenav.component.css']
 })
 export class SidenavComponent {
+
+  @Output() clickedRouterLinkItem: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private router: Router, private route: ActivatedRoute) {}
   

@@ -7,15 +7,15 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active"
-      routerLink="/projects">Projects</mat-list-item>
-    <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" routerLink="/crew-managers">Crew
-      managers</mat-list-item>
-    <mat-list-item [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active"
-      routerLink="/workers">Workers</mat-list-item>
+    <mat-list-item class="!pl-8" [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active"
+      routerLink="/projects" (click)="clickedRouterLinkItem.emit()">Projects</mat-list-item>
+    <mat-list-item class="!pl-8" [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active" 
+    routerLink="/crew-managers" (click)="clickedRouterLinkItem.emit()">Crew managers</mat-list-item>
+    <mat-list-item class="!pl-8" [ngClass]="{'!hidden': !crla.isActive}" routerLinkActive="active"
+      routerLink="/workers" (click)="clickedRouterLinkItem.emit()">Workers</mat-list-item>
   </div>
 
-  <mat-list-item routerLinkActive="active" routerLink="/event-logger">
+  <mat-list-item routerLinkActive="active" routerLink="/event-logger" (click)="clickedRouterLinkItem.emit()">
     Event logger
   </mat-list-item>
 
@@ -27,11 +27,17 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
-      routerLink="/total-hours-per-project">Total hours per project</mat-list-item>
-    <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
-      routerLink="/total-hours-per-crew">Total hours per crew manager</mat-list-item>
-    <mat-list-item [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
-      routerLink="/total-hours-per-manager">Total hours per crew manager</mat-list-item>
+    <mat-list-item class="!pl-8" [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
+      routerLink="/total-hours-per-project" (click)="clickedRouterLinkItem.emit()">
+        Total hours per project
+    </mat-list-item>
+    <mat-list-item class="!pl-8" [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
+      routerLink="/total-hours-per-crew" (click)="clickedRouterLinkItem.emit()">
+        Total hours per crew manager
+    </mat-list-item>
+    <mat-list-item class="!pl-8" [ngClass]="{'!hidden': !rrla.isActive}" routerLinkActive="active"
+      routerLink="/total-hours-per-manager" (click)="clickedRouterLinkItem.emit()">
+        Total hours per worker
+    </mat-list-item>
   </div>
 </mat-nav-list>

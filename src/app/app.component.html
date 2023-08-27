@@ -7,7 +7,7 @@
 
 <mat-sidenav-container class="!absolute top-0 bottom-0 left-0 right-0 mt-[56px]">
   <mat-sidenav #sidenav  [class.w-72]="!isHandset" [mode]="isHandset ? 'over' : 'side'">
-    <app-sidenav></app-sidenav>
+    <app-sidenav (clickedRouterLinkItem)="onClickedRouterLinkItem()"></app-sidenav>
   </mat-sidenav>
 
   <mat-sidenav-content>

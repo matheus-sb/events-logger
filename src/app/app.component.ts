@@ -1,5 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,8 @@ export class AppComponent {
   title = 'events-logger';
   isHandset = true;
 
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
   constructor(private breakpointObserver: BreakpointObserver) {
   // Detect mobile breakpoint and adjust dialog width
     this.breakpointObserver
@@ -17,5 +20,9 @@ export class AppComponent {
       .subscribe(result => {
         this.isHandset = result.matches;
       });
+  }
+
+  onClickedRouterLinkItem() {
+    this.isHandset && this.sidenav.toggle();
   }
 }
