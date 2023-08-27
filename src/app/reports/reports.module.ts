@@ -13,10 +13,14 @@ import { SharedComponentsModule } from '../shared/shared-components/shared-compo
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+import { TotalHoursPerCrewManagerComponent } from './total-hours-per-crew-manager/total-hours-per-crew-manager.component';
+import { TotalHoursPerWorkerComponent } from './total-hours-per-worker/total-hours-per-worker.component';
 
 @NgModule({
   declarations: [
-    TotalHoursPerProjectComponent
+    TotalHoursPerProjectComponent,
+    TotalHoursPerCrewManagerComponent,
+    TotalHoursPerWorkerComponent
   ],
   imports: [
     CommonModule,

@@ -1,19 +1,18 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ReportsService } from '../reports.service';
-import { ProjectService } from 'src/app/project/project.service';
-import { EventLogAttributesFilter } from 'src/app/shared/event-log';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { GroupTotalHoursType, ReportType } from 'src/app/shared/report';
 import { Subject, takeUntil } from 'rxjs';
+import { EventLogAttributesFilter } from 'src/app/shared/event-log';
+import { GroupTotalHoursType, ReportType } from 'src/app/shared/report';
+import { ReportsService } from '../reports.service';
+import { WorkerService } from 'src/app/worker/worker.service';
 
 @Component({
-  selector: 'app-total-hours-per-project',
-  templateUrl: './total-hours-per-project.component.html',
-  styleUrls: ['./total-hours-per-project.component.css'],
-  providers: []
+  selector: 'app-total-hours-per-worker',
+  templateUrl: './total-hours-per-worker.component.html',
+  styleUrls: ['./total-hours-per-worker.component.css']
 })
-export class TotalHoursPerProjectComponent implements OnInit, OnDestroy {
+export class TotalHoursPerWorkerComponent implements OnInit, OnDestroy {
 
   private eventLogAttributesFilter?: EventLogAttributesFilter;
 
@@ -33,14 +32,14 @@ export class TotalHoursPerProjectComponent implements OnInit, OnDestroy {
 
   constructor(
     private reportsService: ReportsService,
-    public projectService: ProjectService
+    public workerService: WorkerService
   ) { }
 
   ngOnInit(): void {
     this.reportsService.setProcessEventLogs = true;
-    this.reportsService.report = ReportType.TotalHoursPerProject;
+    this.reportsService.report = ReportType.TotalHoursPerWorker;
 
-    this.projectService.refreshProjects();
+    this.workerService.refreshWorkers();
 
     this.reportsService.totalHoursPerGroup$
       .pipe(takeUntil(this.unsubscribe$))
@@ -56,19 +55,19 @@ export class TotalHoursPerProjectComponent implements OnInit, OnDestroy {
     this.reportsService.setProcessEventLogs = false;
   }
 
-  onProjectFilteredBy(filterText: string | null) {
-    this.projectService.filter = filterText || '';
+  onWorkerFilteredBy(filterText: string | null) {
+    this.workerService.filter = filterText || '';
   }
 
-  onProjectLoadMoreItems(event: any) {
-    this.projectService.loadMoreProjects();
+  onWorkerLoadMoreItems(event: any) {
+    this.workerService.loadMoreWorkers();
   }
 
-  onProjectSelectedItem(item: any) {
+  onWorkerSelectedItem(item: any) {
     if (this.eventLogAttributesFilter) {
-      this.eventLogAttributesFilter.projectId = this.getItemId(item);
+      this.eventLogAttributesFilter.workerId = this.getItemId(item);
     } else {
-      this.eventLogAttributesFilter = { projectId: this.getItemId(item) };
+      this.eventLogAttributesFilter = { workerId: this.getItemId(item) };
     }
   }
 
@@ -91,7 +90,7 @@ export class TotalHoursPerProjectComponent implements OnInit, OnDestroy {
     return null; // Valid range
   }
 
-  searchTotalHoursPerProject() {
+  searchTotalHoursPerWorker() {
     this.handleDateRange();
     this.reportsService.generateReportTotalHoursPerGroup(this.eventLogAttributesFilter);
     this.expansionPanel.close();
