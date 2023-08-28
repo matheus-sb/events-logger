@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
 
 @Component({
   selector: 'app-image-upload',
@@ -16,9 +17,18 @@ export class ImageUploadComponent {
 
   private _selectedImage: string | null = null;
 
+  constructor(private notificationHandlerService: NotificationHandlerService) {}
+
   onImageSelected(event: any) {
+    const maxSizeKB = 250; // This max size is due to the fact that I am persisting it in local storage
     const file = event.target.files[0];
     if (file) {
+      const fileSizeKB = file.size / 1024; // Convert to kilobytes
+      
+      if (fileSizeKB > maxSizeKB) {
+        this.notificationHandlerService.handleNotification(`File size exceeds ${maxSizeKB}KB limit. Please select a smaller file.`);
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.selectedImage = e.target.result;

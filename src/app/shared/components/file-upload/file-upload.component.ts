@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FileInfo } from '../../file-info';
+import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -13,10 +14,20 @@ export class FileUploadComponent {
   @Input() filesInfo: FileInfo[] = [];
   @Output() filesInfoChange: EventEmitter<FileInfo[]> = new EventEmitter<FileInfo[]>
 
+  constructor(private notificationHandlerService: NotificationHandlerService) {}
+
 
   selectFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
+      const maxSizeKB = 250; // This max size is due to the fact that I am persisting it in local storage
       const file: File = event.target.files[0];
+      const fileSizeKB = file.size / 1024; // Convert to kilobytes
+      
+      if (fileSizeKB > maxSizeKB) {
+        this.notificationHandlerService.handleNotification(`File size exceeds ${maxSizeKB}KB limit. Please select a smaller file.`);
+        return;
+      }
+
       this.currentFile = file;
       this.fileName = this.currentFile.name;
     } else {
