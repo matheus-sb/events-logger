@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { FileInfo } from '../../file-info';
 import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-file-upload',
@@ -14,8 +16,8 @@ export class FileUploadComponent {
   @Input() filesInfo: FileInfo[] = [];
   @Output() filesInfoChange: EventEmitter<FileInfo[]> = new EventEmitter<FileInfo[]>
 
-  constructor(private notificationHandlerService: NotificationHandlerService) {}
-
+  constructor(private notificationHandlerService: NotificationHandlerService,
+    public platform: Platform) {}
 
   selectFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
@@ -54,30 +56,41 @@ export class FileUploadComponent {
     reader.readAsDataURL(this.currentFile);
   }
 
-  downloadFile(fileInfo: FileInfo): void {
+  async downloadFile(fileInfo: FileInfo): Promise<void> {
     if (!fileInfo) {
       return;
     }
     
-    // Create a Blob from the Data URL
-    const blob = this.dataURItoBlob(fileInfo.fileData);
+    if (this.platform.is('hybrid')) {
+      const savedFile = await Filesystem.writeFile({
+        path: fileInfo.fileName,
+        data: fileInfo.fileData,
+        directory: Directory.Data
+      });
 
-    // Create a temporary URL for the Blob
-    const url = window.URL.createObjectURL(blob);
+      this.notificationHandlerService.handleNotification(`${fileInfo.fileName} downloaded successfully`);
 
-    // Create an anchor element to trigger the download
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileInfo.fileName;
-    a.style.display = 'none';
+    } else {
+      // Create a Blob from the Data URL
+      const blob = this.dataURItoBlob(fileInfo.fileData);
 
-    // Trigger a click event to start the download
-    document.body.appendChild(a);
-    a.click();
+      // Create a temporary URL for the Blob
+      const url = window.URL.createObjectURL(blob);
 
-    // Clean up resources
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+      // Create an anchor element to trigger the download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileInfo.fileName;
+      a.style.display = 'none';
+
+      // Trigger a click event to start the download
+      document.body.appendChild(a);
+      a.click();
+
+      // Clean up resources
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }
   }
 
   private dataURItoBlob(dataURI: string): Blob {
