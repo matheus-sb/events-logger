@@ -1,0 +1,7 @@
+{
+  "name": "events-logger",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

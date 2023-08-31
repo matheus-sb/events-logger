@@ -17,6 +17,7 @@ import { CrewManagerModule } from './crew-manager/crew-manager.module';
 import { WorkerModule } from './worker/worker.module';
 import { EventLoggerModule } from './event-logger/event-logger.module';
 import { ReportsModule } from './reports/reports.module';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ReportsModule } from './reports/reports.module';
     CrewManagerModule,
     WorkerModule,
     EventLoggerModule,
-    ReportsModule
+    ReportsModule,
+    IonicModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
